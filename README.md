@@ -15,8 +15,20 @@ This application is an application that reads data from a kafka topic and proces
     iv. Deployment Strategies: Use deployment strategies like Canary deployments to minimize downtime during updates or changes to your application. This way, we can ensure the pipeline is stable and ready before scaling it up to fully productive.
 
 2. What other components would you want to add to make this production-ready?
+    i. Kafka Connect: Use Kafka Connect as a centralized data hub for simple data integration between things like databases, file systems, and more.
+    ii. Schema Registry: Implement a schema registry for managing schemas to ensure data compatibility and data quality.
+    iii. Load Balancers: Eventhough Kafka by default has a load balancer that implements Round-robin approach but as data volume increases we can switch to Parallelization.
+    iv. Disaster Recovery: Develop a disaster recovery plan to handle catastrophic failures and data center outages. I will build a smaller secondary Kafka cluster,with separated brokers, zookeeper and disks, then use services liek MirrorMaker to fill it with data. That way, when the main kafka cluster goes down, we can switch to the secondary Kafka cluster while recovering the main one.
+    v. Auto-Scaling: Implement auto-scaling mechanisms for Kafka clusters and consumer applications to handle varying workloads. We can utilize services like Amazon MSK.
+    vi. Documentation: From my experience, I would always advice on making a clear and tharough documentations about deployment procedures, configurations, and troubleshooting guides. That way, when other engineer tries to take over the task, he doesn't have to go from the scratch to figure out what is going on, instead he could just read the documentation and figure out.
 
 3. How can this application scale with a growing dataset?
+    i. Scale Kafka Partitions: Increase the number of partitions for Kafka topics to allow for parallel processing. It allows more consumers to consume the messages simultaneously which helps in processing large volume of data.
+    ii. Scale Consumer: Scale the Kafka consumers by adding more consumer as data grows. We can utilize container orchestration platforms like Kubernetes to implement this.
+    iii. Optimizing Processing Logic: Optimize the data processing logic to be more efficient. For example, if process can go from O(N^2) to O(logN), that would be more than 100% sped up. The less steps it takes to arrive to end result means less processing needed  therefore higher speed.
+    iv. Backpressure Handling: Implement backpressure handling mechanisms to prevent overwhelming the consumer application with data. This can involve rate limiting, buffering, or delaying messages.
+    vi. Archiving Old Data: Implement data archiving and retention policies to move older data to long-term storage solutions (e.g., AWS S3) in order to keep the Kafka cluster manageable.
+    vii. Capacity Planning: Base on data growth projection that may comes from different department, we can tharoughly review and adjust the kafka cluster capacity to prevent over-sizing or under-sizing.
 
 *To run this application in your local machine, please follow steps below:*
 1. Pull all the files (except myenv if you are not tring to run the python script separately) into your machine.
