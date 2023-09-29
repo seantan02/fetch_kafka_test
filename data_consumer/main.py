@@ -1,4 +1,5 @@
 import helper
+#We should avoid importing module twice but I will do it here for simplicity
 import json
 
 if __name__ == "__main__":
@@ -47,8 +48,10 @@ if __name__ == "__main__":
             processed_data = json.dumps(processed_data)
             assert helper.kafka_producer_send(kafka_producer_object, "user-login-processed", processed_data) == True
     except Exception as e:
+        #There will be many ideal way to handle exceptions in production but I will make it really simple by printing it out
         print(f"Error occured: {e}")
     finally:
+        #We want to make sure we clean up things nicely so we close the kafka consumer and producer when it's done
         if "kafka_consumer_object" in locals():
             kafka_consumer_object.close()
         if "kafka_producer_object" in locals():

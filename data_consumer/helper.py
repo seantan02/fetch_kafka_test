@@ -68,21 +68,42 @@ def kafka_producer_send(producer_object, topic, data) -> bool:
 
 #Encryption and Decryption
 def generate_key():
+    """
+    This function generate a 32-bits key for encypting data
+    :return: key
+    """
     key = Fernet.generate_key()
     return key
 
 def encrypt_data(key, data):
+    """
+    This function generate a 32-bits key for encypting data
+    :param key: A 32-bits key to encrypt data
+    :param data: The data to be encypted 
+    :return: Encrypted data
+    """
     cipher_suite = Fernet(key)
     # Encrypt the data
     return cipher_suite.encrypt(data.encode())
 
 def decrype_data(key, data):
+    """
+    This function generate a 32-bits key for decrypting data
+    :param key: A 32-bits key to decrypt data
+    :param data: The data to be decrypted 
+    :return: Decrypted data
+    """
     cipher_suite = Fernet(key)
     # Decrypt the string (later)
     return cipher_suite.decrypt(data).decode()
 
 #Datetime
 def convert_unix_to_datetime(timestamp):
+    """
+    This function convert a Unix timestamp to a datetime object so it's more readable
+    :param timestamp: Unix timestamp to convert
+    :return: The correspond timestamp in datetime format
+    """
     # Convert Unix timestamp to datetime
     datetime_obj = datetime.datetime.utcfromtimestamp(timestamp)
     # Print the datetime object in a specific format
